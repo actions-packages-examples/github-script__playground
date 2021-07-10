@@ -1,0 +1,21 @@
+name: Check rate limit
+
+on:
+  push:
+    branches: 
+      - check-rate-limit
+
+jobs:
+  first_job:
+    runs-on: ubuntu-latest
+    steps:
+    # https://octokit.github.io/rest.js/#octokit-routes-rateLimit
+    - name: Ping /rate_limit
+      uses: actions/github-script@0.4.0
+      with:
+        debug: true
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const result = await github.rateLimit.get()
+          
+          console.log(result)
